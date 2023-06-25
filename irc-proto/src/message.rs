@@ -9,12 +9,16 @@ use crate::error;
 use crate::error::{MessageParseError, ProtocolError};
 use crate::prefix::Prefix;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 /// A data structure representing an IRC message according to the protocol specification. It
 /// consists of a collection of IRCv3 tags, a prefix (describing the source of the message), and
 /// the protocol command. If the command is unknown, it is treated as a special raw command that
 /// consists of a collection of arguments and the special suffix argument. Otherwise, the command
 /// is parsed into a more useful form as described in [`Command`].
 #[derive(Clone, PartialEq, Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Message {
     /// Message tags as defined by [IRCv3.2](http://ircv3.net/specs/core/message-tags-3.2.html).
     /// These tags are used to add extended information to the given message, and are commonly used
@@ -264,6 +268,7 @@ impl Display for Message {
 /// of tags (in the string format, they are separated by semicolons). Tags are used to add extended
 /// information to a message under IRCv3.
 #[derive(Clone, PartialEq, Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Tag(pub String, pub Option<String>);
 
 fn escape_tag_value(f: &mut dyn Write, value: &str) -> FmtResult {

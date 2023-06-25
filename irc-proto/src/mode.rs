@@ -4,6 +4,9 @@ use std::fmt;
 use crate::command::Command;
 use crate::error::MessageParseError;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 /// A marker trait for different kinds of Modes.
 pub trait ModeType: fmt::Display + fmt::Debug + Clone + PartialEq {
     /// Creates a command of this kind.
@@ -18,6 +21,7 @@ pub trait ModeType: fmt::Display + fmt::Debug + Clone + PartialEq {
 
 /// User modes for the MODE command.
 #[derive(Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum UserMode {
     /// a - user is flagged as away
     Away,
@@ -90,6 +94,7 @@ impl fmt::Display for UserMode {
 
 /// Channel modes for the MODE command.
 #[derive(Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum ChannelMode {
     /// b - ban the user from joining or speaking in the channel
     Ban,
@@ -208,6 +213,7 @@ impl fmt::Display for ChannelMode {
 
 /// A mode argument for the MODE command.
 #[derive(Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Mode<T>
 where
     T: ModeType,

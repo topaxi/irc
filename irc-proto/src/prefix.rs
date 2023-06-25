@@ -2,8 +2,12 @@
 use std::fmt;
 use std::str::FromStr;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 /// The Prefix indicates "the true origin of the message", according to the server.
 #[derive(Clone, Eq, PartialEq, Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Prefix {
     /// servername, e.g. collins.mozilla.org
     ServerName(String),

@@ -2,6 +2,9 @@
 #![allow(non_camel_case_types)]
 use std::str::FromStr;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 macro_rules! make_response {
     ($($(#[$attr:meta])+ $variant:ident = $value:expr),+) => {
         /// List of all server responses as defined in
@@ -10,6 +13,7 @@ macro_rules! make_response {
         /// Modern). All commands are documented with their expected form from the RFC, and any
         /// useful, additional information about the response code.
         #[derive(Clone, Copy, Debug, PartialEq)]
+        #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
         #[repr(u16)]
         pub enum Response {
             $($(#[$attr])+ $variant = $value),+

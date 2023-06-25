@@ -6,11 +6,15 @@ use crate::error::MessageParseError;
 use crate::mode::{ChannelMode, Mode, UserMode};
 use crate::response::Response;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 /// List of all client commands as defined in [RFC 2812](http://tools.ietf.org/html/rfc2812). This
 /// also includes commands from the
 /// [capabilities extension](https://tools.ietf.org/html/draft-mitchell-irc-capabilities-01).
 /// Additionally, this includes some common additional commands from popular IRCds.
 #[derive(Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum Command {
     // 3.1 Connection Registration
     /// PASS :password
@@ -976,6 +980,7 @@ fn raw(cmd: &str, args: Vec<&str>) -> Command {
 
 /// A list of all of the subcommands for the capabilities extension.
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum CapSubCommand {
     /// Requests a list of the server's capabilities.
     LS,
@@ -1043,6 +1048,7 @@ impl FromStr for CapSubCommand {
 /// A list of all the subcommands for the
 /// [metadata extension](http://ircv3.net/specs/core/metadata-3.2.html).
 #[derive(Clone, Copy, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum MetadataSubCommand {
     /// Looks up the value for some keys.
     GET,
@@ -1089,6 +1095,7 @@ impl FromStr for MetadataSubCommand {
 
 /// [batch extension](http://ircv3.net/specs/extensions/batch-3.2.html).
 #[derive(Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum BatchSubCommand {
     /// [NETSPLIT](http://ircv3.net/specs/extensions/batch/netsplit.html)
     NETSPLIT,
