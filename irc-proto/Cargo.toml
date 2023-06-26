@@ -15,8 +15,7 @@ categories = ["network-programming"]
 travis-ci = { repository = "aatxe/irc" }
 
 [features]
-default = ["bytes", "tokio", "tokio-util"]
-serde = []
+default = ["bytes", "tokio", "tokio-util", "serde"]
 
 [dependencies]
 encoding = "0.2.33"
