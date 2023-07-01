@@ -6,8 +6,12 @@ use std::str::FromStr;
 
 use crate::proto::{ChannelMode, Mode};
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 /// IRC User data.
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct User {
     /// The user's nickname.
     nickname: String,
@@ -132,6 +136,7 @@ impl PartialEq for User {
 
 /// The user's access level.
 #[derive(Copy, PartialEq, Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum AccessLevel {
     /// The channel owner (~).
     Owner,
